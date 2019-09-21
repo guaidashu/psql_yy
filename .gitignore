@@ -1,0 +1,10 @@
+.idea
+.vscode
+main.py
+**/__pycache__
+test
+Pipfile
+Pipfile.lock
+config
+dist
+build
