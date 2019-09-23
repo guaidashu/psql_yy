@@ -164,6 +164,7 @@ class PsqlDB(object):
             self.db.commit()
             results = 1
         except Exception as e:
+            self.db.rollback()
             self.tool.debug(e)
             self.tool.debug("Database insert error")
             results = 0
@@ -171,7 +172,7 @@ class PsqlDB(object):
             self.close()
         return results
 
-    def insert_last_id(self, data, is_close_db=True):
+    def insert_last_id(self, data, return_columns="id", is_close_db=True):
         """
         数据存储并返回此次的 自增id
         Insert data and it will return a id which insert now.
@@ -181,12 +182,13 @@ class PsqlDB(object):
         """
         self.cursor = self.get_cursor()
         sql = self.get_insert_sql(data)
+        sql = sql + " RETURNING {id}".format(id=return_columns)
         try:
             self.cursor.execute(sql)
             self.db.commit()
-            results = self.cursor.lastrowid
-            self.tool.debug(results)
+            results = self.cursor.fetchone()[0]
         except Exception as e:
+            self.db.rollback()
             self.tool.debug(e)
             self.tool.debug("Database insert error")
             results = 0
@@ -209,6 +211,7 @@ class PsqlDB(object):
             self.db.commit()
             results = 1
         except:
+            self.db.rollback()
             self.tool.debug("Database update error")
             results = 0
         if is_close_db:
@@ -230,6 +233,7 @@ class PsqlDB(object):
             self.db.commit()
             results = 1
         except:
+            self.db.rollback()
             self.tool.debug("Database delete error")
             results = 0
         if is_close_db:
@@ -450,6 +454,7 @@ class PsqlDB(object):
             if sql.lower().find("select ") != -1:
                 data = self.cursor.fetchall()
         except Exception as e:
+            self.db.rollback()
             if self.is_debug:
                 self.tool.debug("原生语句执行出错，报错信息：")
                 data = 0
