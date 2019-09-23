@@ -8,3 +8,4 @@ Pipfile.lock
 config
 dist
 build
+*.egg-info

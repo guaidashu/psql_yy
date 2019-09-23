@@ -13,4 +13,5 @@ __maintainer__ = 'YY blog'
 __license__ = 'MIT'
 __copyright__ = '(c) 2019 by guaidashu'
 __install_requires__ = [
+    "psycopg2 <= 2.8.3"
 ]
