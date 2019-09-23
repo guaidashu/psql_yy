@@ -1,4 +1,4 @@
-# **Too-yy, designed by yy**
+# **Psql-yy, designed by yy**
 
 ## Installing and Getting started
 
