@@ -5,7 +5,7 @@ Create by yy on 2019/9/21
 __title__ = 'psql-yy'
 __description__ = 'A tool which is used to connect postgresql, designed by yy'
 __url__ = 'https://github.com/guaidashu/psql_yy'
-__version_info__ = ('0', '1', '4')
+__version_info__ = ('0', '1', '5')
 __version__ = '.'.join(__version_info__)
 __author__ = 'guaidashu'
 __author_email__ = 'song42960@gmail.com'

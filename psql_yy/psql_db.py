@@ -11,14 +11,14 @@ from .lib.tool import Tool
 import warnings
 
 
-class _PsqlDB(object):
-    """
-    Remembers configuration for the (db, helper) tuple.
-    """
-
-    def __init__(self, db):
-        self.db = db
-        self.connectors = {}
+# class _PsqlDB(object):
+#     """
+#     Remembers configuration for the (db, helper) tuple.
+#     """
+#
+#     def __init__(self, db):
+#         self.db = db
+#         self.connectors = {}
 
 
 class PsqlDB(object):
@@ -47,7 +47,10 @@ class PsqlDB(object):
         self.database = kwargs.setdefault("database", "postgres")
         self.table_prefix = kwargs.setdefault("table_prefix", "")
         if helper is not None:
+            self.helper = helper
             self.init_helper(helper)
+        else:
+            self.helper = None
 
     def __del__(self):
         """
@@ -62,7 +65,7 @@ class PsqlDB(object):
     def close(self):
         """
         关闭数据库
-        close the database connection
+        Close the database connection
         :return:
         """
         try:
@@ -85,24 +88,76 @@ class PsqlDB(object):
     def init(self):
         """
         创建连接
-        create a database connection
+        Create a database connection
         :return:
         """
         self.db = psycopg2.connect(database=self.database, user=self.username, password=self.password, host=self.host,
                                    port=self.port)
 
-    def init_helper(self, helper):
+    def get_config(self, config):
+        """
+        获取配置
+        Get config from config dict.
+        The config example:
+            POSTGRESQL_CONFIG = {
+                "USERNAME": "postgres",
+                "PASSWORD": "root",
+                "HOST": "127.0.0.1",
+                "PORT": "5432",
+                "DATABASE": "postgres",
+                "TABLE_PREFIX": ""
+            }
+        :param config:
+        :return:
+        """
+        self.username = self.helper.config[config].setdefault("USERNAME", "postgres")
+        self.password = self.helper.config[config].setdefault("PASSWORD", "root")
+        self.host = self.helper.config[config].setdefault("HOST", "127.0.0.1")
+        self.port = self.helper.config[config].setdefault("PORT", "5432")
+        self.database = self.helper.config[config].setdefault("DATABASE", "postgres")
+        self.table_prefix = self.helper.config[config].setdefault("TABLE_PREFIX", "")
+
+    def init_db(self, config):
+        """
+        If you want to use this method,
+        you must call function init_helper,
+        otherwise it will give a warning.
+        :param config:
+        :return:
+        """
+        if self.helper is None:
+            warnings.warn('Please call function init_helper first.')
+            return None
+        if config not in self.helper.config:
+            warnings.warn('Please set postgresql connect info.')
+            return None
+        self.get_config(config)
+        return self
+
+    def init_helper(self, helper, init_config=True):
         """This callback can be used to initialize an Helper application for the
         use with this database setup.  Never use a database in the context
         of an application not initialized that way or connections will
         leak.
         """
-        if 'POSTGRESQL_CONFIG' not in helper.config:
-            warnings.warn('Please set postgresql connect info.')
-            return self
-        helper.psql = _PsqlDB(self)
+        self.helper = helper
+        default_config = 'POSTGRESQL_CONFIG'
+        if init_config:
+            if default_config not in helper.config:
+                warnings.warn('Please set postgresql connect info.')
+                return self
+            self.get_config(default_config)
+        helper.psql = self
 
     def select(self, data, get_all=True, is_close_db=True):
+        """
+        查询方法
+        Select method.
+        :param data:
+        :param get_all:
+        :param is_close_db:
+        :return:
+        """
         self.cursor = self.get_cursor()
         data['table'] = self.table_prefix + data['table']
         sql = self.get_select_sql(data)
@@ -201,7 +256,7 @@ class PsqlDB(object):
     def update(self, data, is_close_db=True):
         """
         更新数据
-        update data
+        Update data
         :param data:
         :param is_close_db:
         :return:
@@ -223,7 +278,7 @@ class PsqlDB(object):
     def delete(self, data, is_close_db=True):
         """
         删除数据
-        delete data
+        Delete data
         :param data:
         :param is_close_db:
         :return:
