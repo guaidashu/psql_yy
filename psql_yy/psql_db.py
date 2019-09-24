@@ -134,6 +134,12 @@ class PsqlDB(object):
         self.get_config(config)
         return self
 
+    def __call__(self, *args, **kwargs):
+        if len(args) < 1:
+            warnings.warn('Please give a config name.')
+            return self
+        return self.init_db(config=args[0])
+
     def init_helper(self, helper, init_config=True):
         """This callback can be used to initialize an Helper application for the
         use with this database setup.  Never use a database in the context
