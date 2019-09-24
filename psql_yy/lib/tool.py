@@ -4,7 +4,7 @@ Create by yy on 2019/9/22
 import datetime as _datetime
 import sys
 
-from psql_yy.libs import SERVER_STATUS
+from . import SERVER_STATUS
 from . import settings, converters
 from ._compat import str_type, PY2
 

@@ -1,11 +1,13 @@
 """
 Create by yy on 2019/9/21
+I'm looking for a good job, can you provide for me?
+Please contact me by email 1023767856@qq.com.
 """
 import re
 
 import psycopg2
 
-from psql_yy.libs.tool import Tool
+from .lib.tool import Tool
 import warnings
 
 

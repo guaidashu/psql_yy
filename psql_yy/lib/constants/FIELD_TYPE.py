@@ -2,8 +2,6 @@
 Create by yy on 2019/9/23
 """
 
-
-
 DECIMAL = 0
 TINY = 1
 SHORT = 2
