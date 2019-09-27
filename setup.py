@@ -19,7 +19,7 @@ from setuptools import setup, find_packages
 
 about = {}
 
-with open('redis_yy/__about__.py') as f:
+with open('psql_yy/__about__.py') as f:
     exec(f.read(), about)
 
 if sys.argv[-1] == 'test':
