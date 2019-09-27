@@ -137,6 +137,11 @@ class PsqlDB(object):
         return self
 
     def __call__(self, *args, **kwargs):
+        """
+        :param args:
+        :param kwargs:
+        :return:
+        """
         if len(args) < 1:
             warnings.warn('Please give a config name.')
             return self
