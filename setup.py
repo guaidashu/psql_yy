@@ -3,13 +3,14 @@ Create by yy on 2019/9/21
 tool-yy
 -------------
 
-tool-yy is used to get some help and quickly connect the database from anywhere.
+psql-yy is used to get some help and quickly connect the database from anywhere.
+
 I'm looking for a good job, if you can, please contact me by email "1023767856@qq.com".
 
 Links
 `````
 
-* `development version <https://github.com/guaidashu/python3_tool_myself>`_
+* `development version <https://github.com/guaidashu/psql_yy>`_
 """
 import os
 import sys
@@ -18,7 +19,7 @@ from setuptools import setup, find_packages
 
 about = {}
 
-with open('psql_yy/__about__.py') as f:
+with open('redis_yy/__about__.py') as f:
     exec(f.read(), about)
 
 if sys.argv[-1] == 'test':

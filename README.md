@@ -6,17 +6,22 @@
 
     The easiest way to install.
     
-        pip install psql-yy
+    ```py
+    pip install psql-yy
+    ```
   
     Or you can clone source code from github.
   
-        git clone git@github.com:guaidashu/psql_yy.git
+    ```bash
+    git clone git@github.com:guaidashu/psql_yy.git
+    ```
 
 3. Start
 
     Example
 
-  	    from psql_yy import PsqlDB
+    ```py
+    from psql_yy import PsqlDB
   	    
   	    psql = PsqlDB(database="postgres", username="postgres")
   	    
@@ -41,6 +46,7 @@
             "table": "postgres",
             "condition": ["id=12"]
         }, is_close_db=False)
+    ```
 
 
 ## Usage
