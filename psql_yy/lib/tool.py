@@ -22,6 +22,8 @@ else:
     def _fast_surrogateescape(s):
         return s.decode('ascii', 'surrogateescape')
 
+__all__ = ['Tool']
+
 
 class Tool(object):
     def __init__(self, binary_prefix=False):

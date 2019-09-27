@@ -10,6 +10,8 @@ import psycopg2
 from .lib.tool import Tool
 import warnings
 
+__all__ = ['PsqlDB']
+
 
 # class _PsqlDB(object):
 #     """
